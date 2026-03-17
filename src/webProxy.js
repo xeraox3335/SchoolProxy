@@ -126,15 +126,21 @@ function buildUpstreamHeaders(req, targetUrl) {
 
 /**
  * Rewrite Set-Cookie headers so they work on the proxy origin.
- * Strips Domain and Secure attributes (proxy is HTTP during dev).
+ * - Strips Domain so the cookie is scoped to the proxy's own origin.
+ * - Preserves the original SameSite value; only adds SameSite=Lax as a
+ *   fallback when no SameSite attribute is present.
+ * - Strips Secure so cookies survive HTTP connections to the proxy.
  */
 function rewriteSetCookies(cookies) {
   if (!Array.isArray(cookies)) cookies = [cookies];
-  return cookies.map((c) =>
-    c
-      .replace(/;\s*domain=[^;]*/gi, '')
-      .replace(/;\s*samesite=[^;]*/gi, '; SameSite=Lax')
-  );
+  return cookies.map((c) => {
+    let rewritten = c.replace(/;\s*domain=[^;]*/gi, '');
+    // Only add SameSite=Lax if there's no existing SameSite attribute
+    if (!/;\s*samesite=/i.test(rewritten)) {
+      rewritten += '; SameSite=Lax';
+    }
+    return rewritten;
+  });
 }
 
 // ─── Main handler ────────────────────────────────────────────────────────────

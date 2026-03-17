@@ -22,9 +22,11 @@ const PORT = parseInt(process.env.PORT, 10) || 3000;
 app.set('trust proxy', 1);
 
 // ── Security headers (tuned for proxy use) ──
+// contentSecurityPolicy is not disabled globally; for proxied HTML responses,
+// webProxy.js sets a permissive CSP via res.writeHead() which takes precedence.
+// The homepage and error pages use helmet's default strict CSP.
 app.use(
   helmet({
-    contentSecurityPolicy: false,       // we manage CSP per-response in webProxy.js
     crossOriginEmbedderPolicy: false,   // required for loading cross-origin content
     crossOriginResourcePolicy: false,
   })

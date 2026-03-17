@@ -49,23 +49,7 @@ document.addEventListener('submit',function(e){
     f.submit();
   }
 },true);
-/* ---- WebSocket ---- */
-if(window.WebSocket){
-  var OWS=window.WebSocket;
-  window.WebSocket=function(url,protocols){
-    try{
-      var a=new URL(url,location.href);
-      var scheme=a.protocol==='wss:'?'wss:':'ws:';
-      // Keep WS as-is; only reroute http(s) resources above
-    }catch(e){}
-    return protocols?new OWS(url,protocols):new OWS(url);
-  };
-  window.WebSocket.prototype=OWS.prototype;
-  window.WebSocket.CONNECTING=OWS.CONNECTING;
-  window.WebSocket.OPEN=OWS.OPEN;
-  window.WebSocket.CLOSING=OWS.CLOSING;
-  window.WebSocket.CLOSED=OWS.CLOSED;
-}
+/* ---- WebSocket: pass through unchanged (WS/WSS cannot be tunnelled via web proxy) ---- */
 })();`;
 }
 
