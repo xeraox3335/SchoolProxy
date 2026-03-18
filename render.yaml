@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: schoolproxy
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: LOG_FORMAT
+        value: combined
+      - key: RATE_LIMIT
+        value: "true"
+      - key: RATE_LIMIT_MAX
+        value: "2000"
+      - key: REQUEST_TIMEOUT_MS
+        value: "30000"
+      - key: TUNNEL_TIMEOUT_MS
+        value: "60000"
+      - key: MAX_RESPONSE_SIZE
+        value: "52428800"
+      - key: REJECT_UNAUTHORIZED
+        value: "true"
