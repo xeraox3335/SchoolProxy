@@ -98,6 +98,29 @@ Port: 3000   (or whatever PORT is set to)
 
 ## Production deployment
 
+### Render.com
+
+**Option A – one-click blueprint (recommended)**
+
+A `render.yaml` blueprint is included. Click the button below to deploy directly from your fork:
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+
+**Option B – manual setup via the Render dashboard**
+
+1. Sign in at [render.com](https://render.com) and click **New → Web Service**.
+2. Connect your GitHub account and select the **SchoolProxy** repository.
+3. Fill in the service settings:
+   - **Name**: `schoolproxy` (or any name you like)
+   - **Environment**: `Node`
+   - **Build Command**: `npm install`
+   - **Start Command**: `node server.js`
+   - **Plan**: Free (or paid for always-on instances)
+4. Under **Environment Variables**, add any overrides from the table below (all have sensible defaults).
+5. Click **Create Web Service** – Render will build and deploy the app automatically.
+
+> **Note:** Render's free tier spins the service down after a period of inactivity. The first request after a sleep period may take a little longer than usual. Upgrade to a paid plan if you need the proxy to stay always-on.
+
 ### Heroku / Railway
 
 ```bash
